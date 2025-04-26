@@ -1,0 +1,98 @@
+{
+	"info": {
+		"_postman_id": "2eb1de6d-9b1d-4036-a39e-9c5a62dd20ac",
+		"name": "API-Sisfo-Sarpras",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30402736"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:8000/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "3|7nm1ZkaJpiatSKwkgwkTfAd4AYrBPVACzau99dwMb6044a15"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/auth/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Testing",
+			"item": [
+				{
+					"name": "no-token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/no-token"
+					},
+					"response": []
+				},
+				{
+					"name": "need-token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "4|cGff0z5VQjhcSN9rXQvxDC8YutmAeUtQpMlRvEmG83775536"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/need-token/all"
+					},
+					"response": []
+				},
+				{
+					"name": "need-token role:admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "4|cGff0z5VQjhcSN9rXQvxDC8YutmAeUtQpMlRvEmG83775536"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/need-token/admin"
+					},
+					"response": []
+				},
+				{
+					"name": "need-token role:user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "4|cGff0z5VQjhcSN9rXQvxDC8YutmAeUtQpMlRvEmG83775536"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/need-token/user"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

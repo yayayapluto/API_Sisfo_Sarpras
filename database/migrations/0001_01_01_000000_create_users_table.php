@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('password');
             $table->enum("role",["user","admin"]);
-            $table->dateTime("last_login_at")->default("NOW()");
+            $table->dateTime("last_login_at")->default(\Carbon\Carbon::now());
             $table->rememberToken();
             $table->timestamps();
         });

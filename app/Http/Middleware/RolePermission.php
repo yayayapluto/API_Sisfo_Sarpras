@@ -2,8 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Custom\Formatter;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class RolePermission
@@ -13,8 +16,19 @@ class RolePermission
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
+        $currentUser = Auth::guard("sanctum")->user();
+
+        $user = User::query()->where("username", $currentUser->username)->first();
+        $userRole = $user->role;
+
+        if (!in_array($userRole, $roles)) {
+            return Formatter::apiResponse(403, "You are not authorized");
+        }
+
+        $request->merge(["user" => $user]);
+
         return $next($request);
     }
 }

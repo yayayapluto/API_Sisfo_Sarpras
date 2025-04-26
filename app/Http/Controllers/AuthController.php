@@ -18,6 +18,8 @@ class AuthController extends Controller
             "password" => "required|string|min:6|max:24"
         ]);
 
+
+
         if ($validator->fails()) {
             return Formatter::apiResponse(422, "Validation failed", null, $validator->errors()->all());
         }
@@ -27,7 +29,7 @@ class AuthController extends Controller
             return Formatter::apiResponse(400, "Username or password doesn't match");
         }
 
-        $token = $user->createToken("xauth_token")->plainTextToken;
+        $token = $user->createToken("auth_token")->plainTextToken;
         return Formatter::apiResponse(200, "Logged in", $token);
     }
 

@@ -12,7 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            "need-token" => \App\Http\Middleware\NeedToken::class,
+            "role" => \App\Http\Middleware\RolePermission::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
