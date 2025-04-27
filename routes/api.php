@@ -8,6 +8,14 @@ Route::prefix("auth")->group(function () {
    Route::get("logout", [\App\Http\Controllers\AuthController::class, "logout"])->middleware("need-token");
 });
 
+Route::middleware("need-token")->group(function () {
+   Route::prefix("admin")->middleware("role:admin")->group(function () {
+      Route::apiResources([
+          "categories" => \App\Http\Controllers\CategoryController::class
+      ]);
+   });
+});
+
 Route::prefix("testing")->group(function () {
     Route::get("no-token", function () {
         return \App\Custom\Formatter::apiResponse(200, "This route need no token");

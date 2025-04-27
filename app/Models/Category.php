@@ -23,4 +23,14 @@ class Category extends Model
     {
         return $this->hasMany(ItemCategory::class);
     }
+
+    public function items()
+    {
+        return $this->hasManyThrough(
+            Item::class,
+            ItemCategory::class,
+            "item_id",
+            "id"
+        );
+    }
 }

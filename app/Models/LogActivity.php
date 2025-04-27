@@ -21,6 +21,6 @@ class LogActivity extends Model
 
     public function performer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, "performed_by", "username");
     }
 }

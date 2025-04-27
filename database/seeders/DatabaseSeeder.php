@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemAttachment;
 use App\Models\ItemCategory;
+use App\Models\LogActivity;
 use App\Models\Rack;
 use App\Models\RackItem;
 use App\Models\Returning;
@@ -72,6 +73,8 @@ class DatabaseSeeder extends Seeder
 
         ReturningAttachment::query()->truncate();
         ReturningAttachment::factory(floor(rand(0, 1) * Returning::query()->count()));
+
+        LogActivity::query()->truncate();
 
         DB::statement("SET FOREIGN_KEY_CHECKS = 1");
     }

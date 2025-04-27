@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('log_activities', function (Blueprint $table) {
             $table->id();
-            $table->string("performed_by");
+            $table->string("performed_by")->default("unknown");
             $table->string("entity");
-            $table->integer("entity_id");
-            $table->enum("action", ["create","update","delete"]);
-            $table->json("old_value");
-            $table->json("new_value");
+            $table->integer("entity_id")->nullable();
+            $table->enum("action", ["retrieve","create","update","delete"]);
+            $table->json("old_value")->nullable();
+            $table->json("new_value")->nullable();
             $table->foreign("performed_by")->references("username")->on("users");
             $table->timestamps();
         });
