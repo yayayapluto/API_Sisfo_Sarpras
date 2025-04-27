@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ReturningAttachment extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         "attachment_id",
         "returning_id"

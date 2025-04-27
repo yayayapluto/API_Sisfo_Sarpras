@@ -21,7 +21,7 @@ class Formatter
         return str_replace($vowels, "", $s);
     }
 
-    public function makeDash(string $s)
+    public static function makeDash(string $s)
     {
         return str_replace(" ", "-", $s);
     }
