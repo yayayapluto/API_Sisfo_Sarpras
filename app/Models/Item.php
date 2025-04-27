@@ -27,6 +27,21 @@ class Item extends Model
         return $this->hasMany(ItemCategory::class);
     }
 
+    public function rackItems()
+    {
+        return $this->hasMany(RackItem::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasManyThrough(Category::class, ItemCategory::class, "category_id", "id");
+    }
+
+    public function racks()
+    {
+        return $this->hasManyThrough(Rack::class, RackItem::class, "rack_id", "id");
+    }
+
     public function borrowings()
     {
         return $this->hasMany(Borrowing::class);
