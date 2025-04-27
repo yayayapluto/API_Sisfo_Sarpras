@@ -11,7 +11,8 @@ Route::prefix("auth")->group(function () {
 Route::middleware("need-token")->group(function () {
    Route::prefix("admin")->middleware("role:admin")->group(function () {
       Route::apiResources([
-          "categories" => \App\Http\Controllers\CategoryController::class
+          "categories" => \App\Http\Controllers\CategoryController::class,
+          "racks" => \App\Http\Controllers\RackController::class
       ]);
    });
 });

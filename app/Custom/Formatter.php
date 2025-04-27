@@ -10,7 +10,7 @@ class Formatter
         return response()->json([
             "success" => $success,
             "message" => $message,
-            "data" => $data,
+            "content" => $data,
             "error" => $error
         ], $code);
     }

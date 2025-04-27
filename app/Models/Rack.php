@@ -24,4 +24,9 @@ class Rack extends Model
     {
         return $this->hasOne(RackItem::class);
     }
+
+    public function items()
+    {
+        return $this->hasManyThrough(Item::class, RackItem::class, "rack_id", "id");
+    }
 }
