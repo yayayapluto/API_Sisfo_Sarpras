@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use function Symfony\Component\Translation\t;
 
 class ItemAttachment extends Model
 {
@@ -17,4 +18,14 @@ class ItemAttachment extends Model
     protected $hidden = [
         "id"
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    public function attachment()
+    {
+        return $this->belongsTo(Attachment::class);
+    }
 }

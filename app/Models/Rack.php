@@ -19,4 +19,9 @@ class Rack extends Model
     protected $hidden = [
         "id"
     ];
+
+    public function rackItems()
+    {
+        return $this->hasOne(RackItem::class);
+    }
 }

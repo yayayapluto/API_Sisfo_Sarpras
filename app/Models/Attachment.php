@@ -17,4 +17,14 @@ class Attachment extends Model
     protected $hidden = [
         "id"
     ];
+
+    public function itemAttachments()
+    {
+        return $this->hasMany(ItemAttachment::class);
+    }
+
+    public function returningAttachment()
+    {
+        return $this->hasMany(ReturningAttachment::class);
+    }
 }

@@ -21,4 +21,14 @@ class Item extends Model
     protected $hidden = [
         "id"
     ];
+
+    public function itemCategories()
+    {
+        return $this->hasMany(ItemCategory::class);
+    }
+
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
+    }
 }

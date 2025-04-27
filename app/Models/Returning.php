@@ -18,4 +18,19 @@ class Returning extends Model
     protected $hidden = [
         "id"
     ];
+
+    public function borrow()
+    {
+        return $this->belongsTo(Borrowing::class);
+    }
+
+    public function handler()
+    {
+        return $this->belongsTo(User::class, "handled_by", "username");
+    }
+
+    public function returningAttachments()
+    {
+        return $this->hasMany(ReturningAttachment::class);
+    }
 }

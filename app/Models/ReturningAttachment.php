@@ -17,4 +17,14 @@ class ReturningAttachment extends Model
     protected $hidden = [
         "id"
     ];
+
+    public function attachment()
+    {
+        return $this->belongsTo(Attachment::class);
+    }
+
+    public function returning()
+    {
+        return $this->belongsTo(Returning::class);
+    }
 }

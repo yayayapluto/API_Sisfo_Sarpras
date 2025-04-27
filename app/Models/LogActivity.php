@@ -18,4 +18,9 @@ class LogActivity extends Model
     protected $hidden = [
         "id"
     ];
+
+    public function performer()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
