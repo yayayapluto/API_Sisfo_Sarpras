@@ -18,10 +18,6 @@ class Item extends Model
         "barcode_url"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function itemCategories()
     {
         return $this->hasMany(ItemCategory::class);
@@ -34,12 +30,23 @@ class Item extends Model
 
     public function categories()
     {
-        return $this->hasManyThrough(Category::class, ItemCategory::class, "category_id", "id");
+        return $this->hasManyThrough(
+            Category::class,
+            ItemCategory::class,
+            "item_id",
+            "id",
+            "id",
+            "category_id");
     }
 
     public function racks()
     {
-        return $this->hasManyThrough(Rack::class, RackItem::class, "rack_id", "id");
+        return $this->hasManyThrough(Rack::class, RackItem::class, "item_id", "id", "id", "rack_id");
+    }
+
+    public function attachments()
+    {
+        return $this->hasManyThrough(Attachment::class, ItemAttachment::class, "item_id", "id", "id", "attachment_id");
     }
 
     public function borrowings()

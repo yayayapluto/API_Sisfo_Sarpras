@@ -16,10 +16,6 @@ class Rack extends Model
         "capacity"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function rackItems()
     {
         return $this->hasOne(RackItem::class);
@@ -27,6 +23,12 @@ class Rack extends Model
 
     public function items()
     {
-        return $this->hasManyThrough(Item::class, RackItem::class, "rack_id", "id");
+        return $this->hasManyThrough(
+            Item::class,
+            RackItem::class,
+            "rack_id",
+            "id",
+        "id",
+        "item_id");
     }
 }

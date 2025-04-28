@@ -15,10 +15,6 @@ class LogActivity extends Model
         "new_value"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function performer()
     {
         return $this->belongsTo(User::class, "performed_by", "username");

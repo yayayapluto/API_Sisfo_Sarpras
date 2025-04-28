@@ -15,10 +15,6 @@ class Category extends Model
         "name"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function itemCategories()
     {
         return $this->hasMany(ItemCategory::class);
@@ -29,8 +25,10 @@ class Category extends Model
         return $this->hasManyThrough(
             Item::class,
             ItemCategory::class,
-            "item_id",
-            "id"
+            "category_id",
+            "id",
+            "id",
+            "item_id"
         );
     }
 }

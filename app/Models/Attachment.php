@@ -14,10 +14,6 @@ class Attachment extends Model
         "file_type"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function itemAttachments()
     {
         return $this->hasMany(ItemAttachment::class);

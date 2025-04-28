@@ -15,13 +15,18 @@ class ReturningController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $returningQuery = Returning::query()->with(["borrow.item","handler","returningAttachments"]);
 
         $user = Auth::guard("sanctum")->user();
         if ($user->role === "user") {
             $returningQuery = $returningQuery->where("borrow.user_id", $user->id);
+        }
+
+        $status = $request->query("status");
+        if (!is_null($status)) {
+            $returningQuery = $returningQuery->join("borrowings", "returnings.borrow_id", "borrow_id")->where("borrowings.status", $status);
         }
 
         $returnings = $returningQuery->simplePaginate(10);

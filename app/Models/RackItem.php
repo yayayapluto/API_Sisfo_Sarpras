@@ -14,10 +14,6 @@ class RackItem extends Model
         "item_id"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function rack()
     {
         return $this->belongsTo(Rack::class);

@@ -15,10 +15,6 @@ class ItemAttachment extends Model
         "attachment_id"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function item()
     {
         return $this->belongsTo(Item::class);

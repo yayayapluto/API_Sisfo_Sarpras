@@ -31,7 +31,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'id',
         'password',
         'remember_token',
     ];
@@ -47,5 +46,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
+    }
+
+    public function borrowingApprovers()
+    {
+        return $this->hasMany(Borrowing::class, "approved_by", "username");
+    }
+
+    public function performer()
+    {
+        return $this->hasMany(LogActivity::class, "performed_by", "username");
     }
 }
