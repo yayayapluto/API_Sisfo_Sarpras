@@ -43,7 +43,7 @@ class BorrowingObserver
             "entity_id" => $borrowing->id,
             "action" => "update",
             "old_value" => json_encode($borrowing->getOriginal()),
-            "new_value" => $borrowing,
+            "new_value" => $borrowing->toJson(),
         ];
         LogActivity::query()->create($logData);
     }

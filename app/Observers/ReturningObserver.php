@@ -3,10 +3,10 @@
 namespace App\Observers;
 
 use App\Models\LogActivity;
-use App\Models\Rack;
+use App\Models\Returning;
 use Illuminate\Support\Facades\Auth;
 
-class RackObserver
+class ReturningObserver
 {
     private $performedBy;
 
@@ -17,48 +17,48 @@ class RackObserver
     }
 
     /**
-     * Handle the Rack "created" event.
+     * Handle the Returning "created" event.
      */
-    public function created(Rack $rack): void
+    public function created(Returning $returning): void
     {
         $logData = [
             "performed_by" => $this->performedBy,
-            "entity" => "Rack",
-            "entity_id" => $rack->id,
+            "entity" => "Returning",
+            "entity_id" => $returning->id,
             "action" => "create",
             "old_value" => null,
-            "new_value" => $rack->toJson(),
+            "new_value" => $returning->toJson(),
         ];
         LogActivity::query()->create($logData);
     }
 
     /**
-     * Handle the Rack "updated" event.
+     * Handle the Returning "updated" event.
      */
-    public function updated(Rack $rack): void
+    public function updated(Returning $returning): void
     {
         $logData = [
             "performed_by" => $this->performedBy,
-            "entity" => "Rack",
-            "entity_id" => $rack->id,
+            "entity" => "Returning",
+            "entity_id" => $returning->id,
             "action" => "update",
-            "old_value" => json_encode($rack->getOriginal()),
-            "new_value" => $rack->toJson()
+            "old_value" => $returning->toJson(),
+            "new_value" => json_encode($returning->getChanges()),
         ];
         LogActivity::query()->create($logData);
     }
 
     /**
-     * Handle the Rack "deleted" event.
+     * Handle the Returning "deleted" event.
      */
-    public function deleted(Rack $rack): void
+    public function deleted(Returning $returning): void
     {
         $logData = [
             "performed_by" => $this->performedBy,
-            "entity" => "Rack",
-            "entity_id" => $rack->id,
+            "entity" => "Returning",
+            "entity_id" => $returning->id,
             "action" => "delete",
-            "old_value" => json_encode($rack->getOriginal()),
+            "old_value" => json_encode($returning->getOriginal()),
             "new_value" => null,
         ];
         LogActivity::query()->create($logData);
