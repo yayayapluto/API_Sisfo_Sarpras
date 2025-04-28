@@ -1,0 +1,556 @@
+{
+	"info": {
+		"_postman_id": "2eb1de6d-9b1d-4036-a39e-9c5a62dd20ac",
+		"name": "API-Sisfo-Sarpras",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30402736"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8000/api/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "3|7nm1ZkaJpiatSKwkgwkTfAd4AYrBPVACzau99dwMb6044a15"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/auth/logout"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Testing",
+			"item": [
+				{
+					"name": "no-token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/no-token"
+					},
+					"response": []
+				},
+				{
+					"name": "need-token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "4|cGff0z5VQjhcSN9rXQvxDC8YutmAeUtQpMlRvEmG83775536"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/need-token/all"
+					},
+					"response": []
+				},
+				{
+					"name": "need-token role:admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "4|cGff0z5VQjhcSN9rXQvxDC8YutmAeUtQpMlRvEmG83775536"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/need-token/admin"
+					},
+					"response": []
+				},
+				{
+					"name": "need-token role:user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "4|cGff0z5VQjhcSN9rXQvxDC8YutmAeUtQpMlRvEmG83775536"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8000/api/testing/need-token/user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Categories",
+					"item": [
+						{
+							"name": "Index",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/categories"
+							},
+							"response": []
+						},
+						{
+							"name": "Store",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"anjay\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/categories"
+							},
+							"response": []
+						},
+						{
+							"name": "Show",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"categori anjay\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/categories/anjay"
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"nemo\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/categories/anjay"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"categori anjay123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/categories/nemo"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Racks",
+					"item": [
+						{
+							"name": "Index",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/racks"
+							},
+							"response": []
+						},
+						{
+							"name": "Store",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"rak gokil\",\r\n    \"capacity\": 100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/racks"
+							},
+							"response": []
+						},
+						{
+							"name": "Show",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"rak gokil\",\r\n    \"capacity\": 100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/racks/rak-gokil"
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"capacity\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/racks/rak-gokil"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"capacity\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/racks/rak-gokil"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Item",
+					"item": [
+						{
+							"name": "Index",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "3|mcFCeKBS95OCByxP5C7OE6JHdntANp2jw3z7lYJhf11b738b"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/items"
+							},
+							"response": []
+						},
+						{
+							"name": "Store",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "3|mcFCeKBS95OCByxP5C7OE6JHdntANp2jw3z7lYJhf11b738b"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "pepel kocak",
+											"type": "text"
+										},
+										{
+											"key": "stock",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/ASUS/Pictures/Screenshot 2023-09-13 113539.png"
+										}
+									]
+								},
+								"url": "http://localhost:8000/api/admin/items"
+							},
+							"response": []
+						},
+						{
+							"name": "Show",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "3|mcFCeKBS95OCByxP5C7OE6JHdntANp2jw3z7lYJhf11b738b"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "pepel kocak",
+											"type": "text"
+										},
+										{
+											"key": "stock",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/C:/Users/ASUS/Pictures/Screenshot 2023-09-13 113539.png"
+										}
+									]
+								},
+								"url": "http://localhost:8000/api/admin/items/ppl"
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stock\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/items/1-tmcnsqtr-dcms-ssmnd-2025-04-28"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"stock\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/items/1-tmcnsqtr-dcms-ssmnd-2025-04-28"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Borrowings",
+					"item": [
+						{
+							"name": "Index",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Show",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/borrowings/1"
+							},
+							"response": []
+						},
+						{
+							"name": "Approve",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/borrowings/1/approve"
+							},
+							"response": []
+						},
+						{
+							"name": "Reject",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/borrowings/2/reject"
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": {
+							"token": "1|BtbuvpYdMtS7Ntlll5XEeNkRUXdcDHALyjFhaHha33a5b6e3"
+						}
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Returning",
+					"item": [
+						{
+							"name": "Index",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/returnings"
+							},
+							"response": []
+						},
+						{
+							"name": "Show",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/returnings/3"
+							},
+							"response": []
+						},
+						{
+							"name": "Approve",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/returnings/3/approve"
+							},
+							"response": []
+						},
+						{
+							"name": "Reject",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/returnings/5/reject"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "5|RTEAenv9L4fdNOMnB9ADBDOsm3aefC03Vo9luuUe194d3587"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
