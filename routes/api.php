@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Route;
 Route::prefix("auth")->group(function () {
    Route::post("login", [\App\Http\Controllers\AuthController::class, "login"]);
    Route::get("logout", [\App\Http\Controllers\AuthController::class, "logout"])->middleware("need-token");
+   Route::get("self", [\App\Http\Controllers\AuthController::class, "self"])->middleware("need-token");
 });
 
 Route::middleware("need-token")->group(function () {
+
    Route::prefix("admin")->middleware("role:admin")->group(function () {
       Route::apiResources([
           "categories" => \App\Http\Controllers\CategoryController::class,
@@ -24,6 +26,15 @@ Route::middleware("need-token")->group(function () {
       Route::patch("returnings/{id}/approve", [\App\Http\Controllers\ReturningController::class, "approve"]);
       Route::patch("returnings/{id}/reject", [\App\Http\Controllers\ReturningController::class, "reject"]);
    });
+
+   Route::prefix("user")->middleware("role:user")->group(function () {
+       Route::apiResource("categories", \App\Http\Controllers\CategoryController::class)->only(["index","show"]);
+       Route::apiResource("racks", \App\Http\Controllers\RackController::class)->only(["index","show"]);
+       Route::apiResource("items", \App\Http\Controllers\ItemController::class)->only(["index","show"]);
+       Route::apiResource("borrows", \App\Http\Controllers\BorrowingController::class)->only(["index","show","store"]);
+       Route::apiResource("returns", \App\Http\Controllers\ReturningController::class)->only(["index","show","store"]);
+   });
+
 });
 
 Route::prefix("testing")->group(function () {

@@ -20,14 +20,13 @@ class RolePermission
     {
         $currentUser = Auth::guard("sanctum")->user();
 
-        $user = User::query()->where("username", $currentUser->username)->first();
-        $userRole = $user->role;
+        $userRole = $currentUser->role;
 
         if (!in_array($userRole, $roles)) {
             return Formatter::apiResponse(403, "You are not authorized");
         }
 
-        $request->merge(["user" => $user]);
+        $request->merge(["user" => $currentUser]);
 
         return $next($request);
     }

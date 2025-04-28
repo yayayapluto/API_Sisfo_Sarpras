@@ -17,6 +17,21 @@ class BorrowingController extends Controller
      */
     public function index(Request $request)
     {
+        /**
+         * query params:
+         * - userId
+         * - itemId
+         * - minQuantity
+         * - maxQuantity
+         * - status
+         * - approvedAt
+         * - approvedBy
+         * - minDue
+         * - maxDue
+         * - sortBy
+         * - sortDir
+         * - size
+         */
         $borrowingsQuery = Borrowing::query()->with(["user","item","approver"]);
 
         $user = Auth::guard("sanctum")->user();
@@ -36,7 +51,7 @@ class BorrowingController extends Controller
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             "item" => "required|string|exists:items,sku",
             "quantity" => "required|integer|min:1",
-            "due" => "required|datetime"
+            "due" => "required|date"
         ]);
         if ($validator->fails()) {
             return Formatter::apiResponse(422, "Validation failed", null, $validator->errors()->all());
@@ -44,7 +59,7 @@ class BorrowingController extends Controller
 
         $validated = $validator->validated();
 
-        $itemId = Item::query()->where("sku", $validated["sku"])->pluck("id")->first();
+        $itemId = Item::query()->where("sku", $validated["item"])->pluck("id")->first();
         if (is_null($itemId)) {
             return Formatter::apiResponse(404, "Item not found");
         }

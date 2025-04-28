@@ -15,6 +15,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        /**
+         * query params:
+         * - search
+         * - sortBy
+         * - sortDir
+         * - size
+         */
+
         $categories = Category::query()->with("items")->simplePaginate(10);
         return Formatter::apiResponse(200, "Categories", $categories);
     }

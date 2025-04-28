@@ -10,6 +10,16 @@ class RackController extends Controller
 {
     public function index()
     {
+        /**
+         * query params:
+         * - search
+         * - sortBy
+         * - sortDir
+         * - minCapacity
+         * - maxCapacity
+         * - size
+         */
+
         $racks = Rack::query()->with("items")->simplePaginate(10);
         return Formatter::apiResponse(200, "Item list retrieved", $racks);
     }

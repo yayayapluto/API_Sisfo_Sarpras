@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Custom\Formatter;
 use App\Models\LogActivity;
+use App\Models\Returning;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,5 +37,10 @@ class AuthController extends Controller
     {
         Auth::guard("sanctum")->user()->tokens()->delete();
         return Formatter::apiResponse(200, "Logged out");
+    }
+
+    public function self()
+    {
+        return Formatter::apiResponse(200, "Self auth data", Auth::guard("sanctum")->user());
     }
 }

@@ -17,11 +17,22 @@ class ReturningController extends Controller
      */
     public function index(Request $request)
     {
+        /**
+         * query params:
+         * - borrowId
+         * - minReturnedQuantity
+         * - maxReturnedQuantity
+         * - handledBy
+         * - sortBy
+         * - sortDir
+         * - size
+         */
+
         $returningQuery = Returning::query()->with(["borrow.item","handler","returningAttachments"]);
 
         $user = Auth::guard("sanctum")->user();
         if ($user->role === "user") {
-            $returningQuery = $returningQuery->where("borrow.user_id", $user->id);
+            $returningQuery = $returningQuery->join("borrowings", "returnings.borrow_id", "borrow_id")->where("borrowings.user_id", $user->id);
         }
 
         $status = $request->query("status");
@@ -66,10 +77,11 @@ class ReturningController extends Controller
 
         $user = Auth::guard("sanctum")->user();
         if ($user->role === "user") {
-            $returningQuery = $returningQuery->where("borrow.user_id", $user->id);
+            $returningQuery = $returningQuery->join("borrowings", "returnings.borrow_id", "borrow_id")->where("borrowings.user_id", $user->id);
         }
 
-        $returning = $returningQuery->find($id);
+        $returning = $returningQuery->where("returnings.id", $id)->first();
+        dd($returning);
         if (is_null($returning)) {
             return Formatter::apiResponse(404, "Returning data not found");
         }

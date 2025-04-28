@@ -20,6 +20,16 @@ class ItemController extends Controller
 {
     public function index()
     {
+        /**
+         * query params:
+         * - search
+         * - sortBy
+         * - sortDir
+         * - minStock
+         * - maxStock
+         * - size
+         */
+
         $items = Item::query()->with(["categories","racks"])->simplePaginate(10);
         return Formatter::apiResponse(200, "Item list retrieved", $items);
     }
@@ -72,6 +82,7 @@ class ItemController extends Controller
                 }
             }
 
+            // need check the rack capacity first
             if ($request->has("racks")) {
                 $rackCodes = explode(",", $request->racks);
                 $rackIds = Rack::query()->whereIn("code", $rackCodes)->pluck("id");
@@ -156,5 +167,23 @@ class ItemController extends Controller
         $item->delete();
 
         return Formatter::apiResponse(200, "Item deleted");
+    }
+
+    // one image per attachment
+    public function addAttachment()
+    {
+
+    }
+
+    // for updating category assigns
+    public function adjustCategories()
+    {
+
+    }
+
+    // for updating rack assigns
+    public function adjustRacks()
+    {
+
     }
 }
