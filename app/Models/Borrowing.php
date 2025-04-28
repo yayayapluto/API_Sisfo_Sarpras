@@ -19,10 +19,6 @@ class Borrowing extends Model
         "approved_by"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function item()
     {
         return $this->belongsTo(Item::class);

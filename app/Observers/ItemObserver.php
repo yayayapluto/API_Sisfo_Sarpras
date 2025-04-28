@@ -37,7 +37,7 @@ class ItemObserver
             "entity_id" => $item->id,
             "action" => "update",
             "old_value" => json_encode($item->getOriginal()),
-            "new_value" => json_encode($item->getChanges()),
+            "new_value" => $item,
         ];
         LogActivity::query()->create($logData);
     }

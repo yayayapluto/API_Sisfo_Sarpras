@@ -2,11 +2,11 @@
 
 namespace App\Observers;
 
+use App\Models\Borrowing;
 use App\Models\LogActivity;
-use App\Models\Rack;
 use Illuminate\Support\Facades\Auth;
 
-class RackObserver
+class BorrowingObserver
 {
     private $performedBy;
 
@@ -17,48 +17,48 @@ class RackObserver
     }
 
     /**
-     * Handle the Rack "created" event.
+     * Handle the Borrowing "created" event.
      */
-    public function created(Rack $rack): void
+    public function created(Borrowing $borrowing): void
     {
         $logData = [
             "performed_by" => $this->performedBy,
-            "entity" => "Rack",
-            "entity_id" => $rack->id,
+            "entity" => "Borrowing",
+            "entity_id" => $borrowing->id,
             "action" => "create",
             "old_value" => null,
-            "new_value" => $rack->toJson(),
+            "new_value" => $borrowing->toJson(),
         ];
         LogActivity::query()->create($logData);
     }
 
     /**
-     * Handle the Rack "updated" event.
+     * Handle the Borrowing "updated" event.
      */
-    public function updated(Rack $rack): void
+    public function updated(Borrowing $borrowing): void
     {
         $logData = [
             "performed_by" => $this->performedBy,
-            "entity" => "Rack",
-            "entity_id" => $rack->id,
+            "entity" => "Borrowing",
+            "entity_id" => $borrowing->id,
             "action" => "update",
-            "old_value" => json_encode($rack->getOriginal()),
-            "new_value" => $rack
+            "old_value" => json_encode($borrowing->getOriginal()),
+            "new_value" => $borrowing,
         ];
         LogActivity::query()->create($logData);
     }
 
     /**
-     * Handle the Rack "deleted" event.
+     * Handle the Borrowing "deleted" event.
      */
-    public function deleted(Rack $rack): void
+    public function deleted(Borrowing $borrowing): void
     {
         $logData = [
             "performed_by" => $this->performedBy,
-            "entity" => "Rack",
-            "entity_id" => $rack->id,
+            "entity" => "Borrowing",
+            "entity_id" => $borrowing->id,
             "action" => "delete",
-            "old_value" => json_encode($rack->getOriginal()),
+            "old_value" => json_encode($borrowing->getOriginal()),
             "new_value" => null,
         ];
         LogActivity::query()->create($logData);

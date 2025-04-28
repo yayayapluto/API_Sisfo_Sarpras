@@ -20,7 +20,7 @@ class ItemFactory extends Factory
     {
         $name = "Item " . fake()->unique()->words(3, true);
         return [
-            "sku" => Formatter::makeDash(Formatter::removeVowel($name) . Carbon::now()->toDateString()) ,
+            "sku" => Formatter::makeDash(Formatter::removeVowel($name) . "-"  . Carbon::now()->toDateString()) ,
             "name" => $name,
             "image_url" => "image url here",
             "stock" => fake()->numberBetween(1, 100),

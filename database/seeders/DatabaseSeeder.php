@@ -28,15 +28,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::statement("SET FOREIGN_KEY_CHECKS = 0");
+        LogActivity::query()->truncate();
 
-        User::query()->truncate();
-        User::query()->create([
-            "username" => "admin",
-            "password" => "admin123",
-            "role" => "admin"
-        ]);
-        User::factory(10)->create();
 
+//        User::query()->truncate();
+//        User::query()->create([
+//            "username" => "admin",
+//            "password" => "admin123",
+//            "role" => "admin"
+//        ]);
+//        User::factory(10)->create();
+//
         Category::query()->truncate();
         Category::factory(15)->create();
 
@@ -44,13 +46,8 @@ class DatabaseSeeder extends Seeder
         Rack::factory(10)->create();
 
         Item::query()->truncate();
-        Item::factory(100)->create();
+        Item::factory(50)->create();
 
-        ItemCategory::query()->truncate();
-        ItemCategory::factory(Item::query()->count() * Category::query()->count())->create();
-
-        RackItem::query()->truncate();
-        RackItem::factory(Rack::query()->count() * Item::query()->count())->create();
 
         Borrowing::query()->truncate();
         Borrowing::factory(100)->create();
@@ -67,14 +64,6 @@ class DatabaseSeeder extends Seeder
 
         Attachment::query()->truncate();
         Attachment::factory(ceil(rand(0, 1) * Item::query()->count()));
-
-        ItemAttachment::query()->truncate();
-        ItemAttachment::factory(floor(rand(0, 1) * Item::query()->count()));
-
-        ReturningAttachment::query()->truncate();
-        ReturningAttachment::factory(floor(rand(0, 1) * Returning::query()->count()));
-
-        LogActivity::query()->truncate();
 
         DB::statement("SET FOREIGN_KEY_CHECKS = 1");
     }

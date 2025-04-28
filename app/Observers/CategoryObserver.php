@@ -37,7 +37,7 @@ class CategoryObserver
             "entity_id" => $category->id,
             "action" => "update",
             "old_value" => json_encode($category->getOriginal()),
-            "new_value" => json_encode($category->getChanges()),
+            "new_value" => $category,
         ];
         LogActivity::query()->create($logData);
     }

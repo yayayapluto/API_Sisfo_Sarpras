@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Custom\Formatter;
+use App\Models\Category;
 use App\Models\Item;
+use App\Models\ItemCategory;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
@@ -22,6 +25,7 @@ class ItemController extends Controller
             "name" => "required|string|min:1",
             "image" => "sometimes|image",
             "stock" => "required|integer|min:0",
+            "categories" => "sometimes|string",
         ]);
 
         if ($validator->fails()) {
@@ -30,7 +34,11 @@ class ItemController extends Controller
 
         $validated = $validator->validated();
 
-        $newSku = Formatter::makeDash(Formatter::removeVowel($validated["name"] . Carbon::now()->toDateString()));
+        $newSku = Formatter::makeDash(Formatter::removeVowel($validated["name"] . "-" . Carbon::now()->toDateString()));
+        if (Item::query()->where("sku", $newSku)->exists()) {
+            return Formatter::apiResponse(400, "Item already exists");
+        }
+
         $validated["sku"] = $newSku;
 
         if ($request->hasFile("image")) {
@@ -42,7 +50,32 @@ class ItemController extends Controller
         }
 
         $newItem = Item::query()->create($validated);
-        return Formatter::apiResponse(200, "Item created", $newItem);
+
+        if ($request->has("categories")) {
+            $categories = explode(",",$request->categories);
+            foreach ($categories as $category) {
+                if (Category::query()->where("slug", $category)->doesntExist()) {
+                    return Formatter::apiResponse(404, "Category " . $category . " not found");
+                }
+                $categoryId = Category::query()->where("slug",$category)->pluck("id")->first();
+                if (!ItemCategory::query()->where("item_id", $newItem->id)->where("category_id", $categoryId)->exists()) {
+                    ItemCategory::query()->create([
+                        "item_id" => $newItem->id,
+                        "category_id" => $categoryId,
+                    ]);
+                }
+            }
+        }
+
+        $resultQuery = Item::query();
+        if ($request->has("categories")) {
+            $resultQuery = $resultQuery->with("categories");
+        }
+        if ($request->has("racks")) {
+            $resultQuery = $resultQuery->with("racks");
+        }
+        $resultQuery = $resultQuery->find($newItem->id);
+        return Formatter::apiResponse(200, "Item created", $resultQuery);
     }
 
     public function show(string $sku)
@@ -73,7 +106,7 @@ class ItemController extends Controller
         $validated = $validator->validated();
 
         if (isset($validated["name"])) {
-            $newSku = Formatter::makeDash(Formatter::removeVowel($validated["name"] . Carbon::now()->toDateString()));
+            $newSku = Formatter::makeDash(Formatter::removeVowel($validated["name"] . "-"  . Carbon::now()->toDateString()));
             $validated["sku"] = $newSku;
         }
 
@@ -92,5 +125,10 @@ class ItemController extends Controller
         $item->delete();
 
         return Formatter::apiResponse(200, "Item deleted");
+    }
+
+    public function assignToRack()
+    {
+        // soon
     }
 }

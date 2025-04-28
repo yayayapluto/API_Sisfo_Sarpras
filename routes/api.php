@@ -13,8 +13,12 @@ Route::middleware("need-token")->group(function () {
       Route::apiResources([
           "categories" => \App\Http\Controllers\CategoryController::class,
           "racks" => \App\Http\Controllers\RackController::class,
-          "items" => \App\Http\Controllers\ItemController::class
+          "items" => \App\Http\Controllers\ItemController::class,
       ]);
+
+      Route::apiResource("borrowings", \App\Http\Controllers\BorrowingController::class)->except(["store","update","destroy"]);
+      Route::patch("borrowings/{id}/approve", [\App\Http\Controllers\BorrowingController::class, "approve"]);
+      Route::patch("borrowings/{id}/reject", [\App\Http\Controllers\BorrowingController::class, "reject"]);
    });
 });
 
