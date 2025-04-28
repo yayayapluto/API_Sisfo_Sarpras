@@ -55,6 +55,17 @@ class DatabaseSeeder extends Seeder
                     "stock" => fake()->numberBetween(1, 100),
                     "barcode_url" => "barcode url here"
                 ]);
+                $attachmentCount = fake()->numberBetween(1, 5);
+                for ($k = 0; $k < $attachmentCount; $k++) {
+                    $newAttachment = Attachment::query()->create([
+                        "file_url" => "file url",
+                        "file_type" => "file type"
+                    ]);
+                    ItemAttachment::query()->create([
+                        "item_id" => $newItem->id,
+                        "attachment_id" => $newAttachment->id
+                    ]);
+                }
                 if (!ItemCategory::query()->where("item_id", $newItem->id)->where("category_id", $categoryId)->exists()){
                     ItemCategory::query()->create([
                         "category_id" => $categoryId,
@@ -79,6 +90,17 @@ class DatabaseSeeder extends Seeder
                     "stock" => fake()->numberBetween(1, 100),
                     "barcode_url" => "barcode url here"
                 ]);
+                $attachmentCount = fake()->numberBetween(1, 5);
+                for ($k = 0; $k < $attachmentCount; $k++) {
+                    $newAttachment = Attachment::query()->create([
+                        "file_url" => "file url",
+                        "file_type" => "file type"
+                    ]);
+                    ItemAttachment::query()->create([
+                        "item_id" => $newItem->id,
+                        "attachment_id" => $newAttachment->id
+                    ]);
+                }
                 if (!RackItem::query()->where("item_id", $newItem->id)->where("rack_id", $rackId)->exists()){
                     RackItem::query()->create([
                         "rack_id" => $rackId,
@@ -111,12 +133,23 @@ class DatabaseSeeder extends Seeder
                     "approved_by" => $approvedBy
                 ]);
                 if ($status === "rejected" || "returned") {
-                    Returning::query()->create([
+                    $newReturning = Returning::query()->create([
                         "borrow_id" => $newBorrowing->id,
                         "handled_by" => $status === "returned" || "rejected" ? "admin" : null,
                         "note" => fake()->paragraph(),
                         "returned_quantity" => fake()->numberBetween(0, $newItem->quantity)
                     ]);
+                    $attachmentCount = fake()->numberBetween(1, 5);
+                    for ($k = 0; $k < $attachmentCount; $k++) {
+                        $newAttachment = Attachment::query()->create([
+                            "file_url" => "file url",
+                            "file_type" => "file type"
+                        ]);
+                        ReturningAttachment::query()->create([
+                            "returning_id" => $newReturning->id,
+                            "attachment_id" => $newAttachment->id
+                        ]);
+                    }
                 }
              }
         }
