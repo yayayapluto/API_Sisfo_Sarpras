@@ -29,7 +29,7 @@ class BorrowingFactory extends Factory
         return [
             "item_id" => Item::all()->pluck("id")->random(),
             "quantity" => fake()->numberBetween(1, 10),
-            "status" => fake()->randomElement(["pending","approved","rejected"]),
+            "status" => fake()->randomElement(["pending","approved","rejected","returned"]),
             "approved_at" => $approvedAt,
             "due" => fake()->dateTimeBetween(\Illuminate\Support\Carbon::now(), Carbon::now()->addDays(fake()->numberBetween(1, 7))),
             "user_id" => User::all()->pluck("id")->random(),

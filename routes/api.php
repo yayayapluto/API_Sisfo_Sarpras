@@ -19,6 +19,10 @@ Route::middleware("need-token")->group(function () {
       Route::apiResource("borrowings", \App\Http\Controllers\BorrowingController::class)->except(["store","update","destroy"]);
       Route::patch("borrowings/{id}/approve", [\App\Http\Controllers\BorrowingController::class, "approve"]);
       Route::patch("borrowings/{id}/reject", [\App\Http\Controllers\BorrowingController::class, "reject"]);
+
+      Route::apiResource("returnings", \App\Http\Controllers\ReturningController::class)->except(["store","update","destroy"]);
+      Route::patch("returnings/{id}/approve", [\App\Http\Controllers\ReturningController::class, "approve"]);
+      Route::patch("returnings/{id}/reject", [\App\Http\Controllers\ReturningController::class, "reject"]);
    });
 });
 

@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Custom\Formatter;
+use App\Models\Borrowing;
+use App\Models\Returning;
+use App\Observers\ReturningObserver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ReturningController extends Controller
 {
@@ -11,7 +17,15 @@ class ReturningController extends Controller
      */
     public function index()
     {
-        //
+        $returningQuery = Returning::query()->with(["borrow.item","handler","returningAttachments"]);
+
+        $user = Auth::guard("sanctum")->user();
+        if ($user->role === "user") {
+            $returningQuery = $returningQuery->where("borrow.user_id", $user->id);
+        }
+
+        $returnings = $returningQuery->simplePaginate(10);
+        return Formatter::apiResponse(200, "Returning list retrieved", $returnings);
     }
 
     /**
@@ -19,7 +33,23 @@ class ReturningController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            "borrowId" => "required|string|exists:borrowings,id",
+            "quantity" => "required|integer|min:1",
+        ]);
+        if ($validator->fails()) {
+            return Formatter::apiResponse(422, "Validation failed", null, $validator->errors()->all());
+        }
+
+        $validated = $validator->validated();
+        $validated["returned_quantity"] = $validated["quantity"];
+
+        Borrowing::query()->where("borrow_id", $validated["borrowId"])->first()->update([
+            "status" => "pending"
+        ]);
+
+        $newReturning = Returning::query()->create($validated);
+        return Formatter::apiResponse(200, "Returning request sent, please wait for admin approval", $newReturning);
     }
 
     /**
@@ -27,22 +57,84 @@ class ReturningController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $returningQuery = Returning::query()->with(["borrow.item","handler","returningAttachments"]);
+
+        $user = Auth::guard("sanctum")->user();
+        if ($user->role === "user") {
+            $returningQuery = $returningQuery->where("borrow.user_id", $user->id);
+        }
+
+        $returning = $returningQuery->find($id);
+        if (is_null($returning)) {
+            return Formatter::apiResponse(404, "Returning data not found");
+        }
+
+        return Formatter::apiResponse(200, "Returning data found", $returning);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function approve(Request $request, int $id)
     {
-        //
+        $returning = Returning::query()->find($id);
+        if (is_null($returning)) {
+            return Formatter::apiResponse(404, "Returning data not found");
+        }
+
+        $validator = Validator::make($request->all(), [
+            "note" => "sometimes|string"
+        ]);
+        if ($validator->fails()) {
+            return Formatter::apiResponse(200, "Validation failed", null, $validator->errors()->all());
+        }
+
+        $validated = $validator->validated();
+
+        $borrowStatus = $returning->borrow->status;
+        if ($borrowStatus !== "pending") {
+            return Formatter::apiResponse(400, "Cannot approve returning request that not have pending status");
+        }
+
+        $adminName = Auth::guard("sanctum")->user()->username;
+
+        $validated["handled_by"] = $adminName;
+
+        Borrowing::query()->find($returning->id)->update([
+            "status" => "returned"
+        ]);
+        $returning->update($validated);
+
+        return Formatter::apiResponse(200, "Returning approved", Returning::query()->with(["borrow.item","handler","returningAttachments"])->find($returning->id));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function reject(Request $request, int $id)
     {
-        //
+        $returning = Returning::query()->find($id);
+        if (is_null($returning)) {
+            return Formatter::apiResponse(404, "Returning data not found");
+        }
+
+        $validator = Validator::make($request->all(), [
+            "note" => "sometimes|string"
+        ]);
+        if ($validator->fails()) {
+            return Formatter::apiResponse(200, "Validation failed", null, $validator->errors()->all());
+        }
+
+        $validated = $validator->validated();
+
+        $borrowStatus = $returning->borrow->status;
+        if ($borrowStatus !== "pending") {
+            return Formatter::apiResponse(400, "Cannot approve returning request that not have pending status");
+        }
+
+        $adminName = Auth::guard("sanctum")->user()->username;
+
+        $validated["handled_by"] = $adminName;
+
+        Borrowing::query()->find($returning->id)->update([
+            "status" => "rejected"
+        ]);
+            $returning->update($validated);
+
+        return Formatter::apiResponse(200, "Returning rejected", Returning::query()->with(["borrow.item","handler","returningAttachments"])->find($returning->id));
     }
 }

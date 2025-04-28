@@ -76,7 +76,7 @@ class BorrowingController extends Controller
         return Formatter::apiResponse(200, "Borrowing data found", $borrowing);
     }
 
-    public function approve(Request $request, int $id)
+    public function approve(int $id)
     {
         $borrowing = Borrowing::query()->find($id);
         if (is_null($borrowing)) {

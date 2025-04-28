@@ -15,10 +15,6 @@ class Returning extends Model
         "note"
     ];
 
-    protected $hidden = [
-        "id"
-    ];
-
     public function borrow()
     {
         return $this->belongsTo(Borrowing::class);
