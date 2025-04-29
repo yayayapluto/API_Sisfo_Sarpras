@@ -15,15 +15,18 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        /**
-         * query params:
-         * - search
-         * - sortBy
-         * - sortDir
-         * - size
-         */
+        $categoriesQuery = Category::query()->with("items");
 
-        $categories = Category::query()->with("items")->simplePaginate(10);
+        if (request()->filled('search')) {
+            $categoriesQuery->where('name', 'LIKE', '%' . request()->search . '%');
+        }
+
+        $sortBy = in_array(\request()->sortBy, ["name","created_at"]) ? \request()->sortBy : "created_at";
+        $sortDir = request()->sortDir === 'asc' ? 'asc' : 'desc';
+        $categoriesQuery->orderBy($sortBy, $sortDir);
+
+        $size = min(max(request()->size ?? 10, 1), 100);
+        $categories = $categoriesQuery->simplePaginate($size);
         return Formatter::apiResponse(200, "Categories", $categories);
     }
 

@@ -11,7 +11,7 @@ class Returning extends Model
     protected $fillable = [
         "borrow_id",
         "handled_by",
-        "returning_quantity",
+        "returned_quantity",
         "note"
     ];
 

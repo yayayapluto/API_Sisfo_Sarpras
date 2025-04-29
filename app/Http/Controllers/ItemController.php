@@ -20,17 +20,21 @@ class ItemController extends Controller
 {
     public function index()
     {
-        /**
-         * query params:
-         * - search
-         * - sortBy
-         * - sortDir
-         * - minStock
-         * - maxStock
-         * - size
-         */
+        $itemsQuery = Item::query()->with(["categories", "racks"]);
 
-        $items = Item::query()->with(["categories","racks"])->simplePaginate(10);
+        if (request()->filled('search')) $itemsQuery->where('name', 'LIKE', '%' . request()->search . '%');
+
+        if (request()->filled('minStock')) $itemsQuery->where('stock', '>=', request()->minStock);
+
+        if (request()->filled('maxStock')) $itemsQuery->where('stock', '<=', request()->maxStock);
+
+        $sortBy = in_array(request()->sortBy, ['name', 'stock', 'created_at']) ? request()->sortBy : 'name';
+        $sortDir = request()->sortDir === 'asc' ? 'asc' : 'desc';
+        $itemsQuery->orderBy($sortBy, $sortDir);
+
+        $size = min(max(request()->size ?? 10, 1), 100);
+        $items = $itemsQuery->simplePaginate($size);
+
         return Formatter::apiResponse(200, "Item list retrieved", $items);
     }
 

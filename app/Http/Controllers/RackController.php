@@ -10,18 +10,22 @@ class RackController extends Controller
 {
     public function index()
     {
-        /**
-         * query params:
-         * - search
-         * - sortBy
-         * - sortDir
-         * - minCapacity
-         * - maxCapacity
-         * - size
-         */
+        $racksQuery = Rack::query()->with("items");
 
-        $racks = Rack::query()->with("items")->simplePaginate(10);
-        return Formatter::apiResponse(200, "Item list retrieved", $racks);
+        if (request()->filled('search')) $racksQuery->where('name', 'LIKE', '%' . request()->search . '%');
+
+        if (request()->filled('minCapacity')) $racksQuery->where('capacity', '>=', request()->minCapacity);
+
+        if (request()->filled('maxCapacity')) $racksQuery->where('capacity', '<=', request()->maxCapacity);
+
+        $sortBy = in_array(request()->sortBy, ['name', 'capacity', 'created_at']) ? request()->sortBy : 'name';
+        $sortDir = request()->sortDir === 'asc' ? 'asc' : 'desc';
+        $racksQuery->orderBy($sortBy, $sortDir);
+
+        $size = min(max(request()->size ?? 10, 1), 100);
+        $racks = $racksQuery->simplePaginate($size);
+
+        return Formatter::apiResponse(200, "Rack list retrieved", $racks);
     }
 
     public function store(Request $request)

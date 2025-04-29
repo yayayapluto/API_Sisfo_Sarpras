@@ -17,30 +17,36 @@ class BorrowingController extends Controller
      */
     public function index(Request $request)
     {
-        /**
-         * query params:
-         * - userId
-         * - itemId
-         * - minQuantity
-         * - maxQuantity
-         * - status
-         * - approvedAt
-         * - approvedBy
-         * - minDue
-         * - maxDue
-         * - sortBy
-         * - sortDir
-         * - size
-         */
-        $borrowingsQuery = Borrowing::query()->with(["user","item","approver"]);
-
+        $borrowingsQuery = Borrowing::with(["user","item"]);
         $user = Auth::guard("sanctum")->user();
+
         if ($user->role === "user") {
-            $borrowingsQuery = $borrowingsQuery->where("user_id", $user->id);
+            $borrowingsQuery->where("user_id", $user->id);
+        } else {
+            if ($request->filled('userId')) {
+                $borrowingsQuery->where('user_id', $request->userId);
+            }
         }
 
-        $borrowings = $borrowingsQuery->simplePaginate(10);
-        return Formatter::apiResponse(200, "Borrowing list retrieved", $borrowings);
+        if ($request->filled('itemId')) $borrowingsQuery->where('item_id', $request->itemId);
+        if ($request->filled('minQuantity')) $borrowingsQuery->where('quantity', '>=', $request->minQuantity);
+        if ($request->filled('maxQuantity')) $borrowingsQuery->where('quantity', '<=', $request->maxQuantity);
+        if ($request->filled('status')) $borrowingsQuery->where('status', $request->status);
+        if ($request->filled('approvedAt')) $borrowingsQuery->whereDate('approved_at', $request->approvedAt);
+        if ($request->filled('minDue')) $borrowingsQuery->where('due', '>=', $request->minDue);
+        if ($request->filled('maxDue')) $borrowingsQuery->where('due', '<=', $request->maxDue);
+
+        if ($request->filled('approvedBy')) $borrowingsQuery->where("approved_by", $request->approvedBy)->with("approver");
+
+        $sortBy = in_array($request->sortBy, ['approved_at','due','created_at'])
+            ? $request->sortBy
+            : 'created_at';
+        $sortDir = $request->sortDir === 'desc' ? 'desc' : 'asc';
+        $borrowingsQuery->orderBy($sortBy, $sortDir);
+
+        $size = min(max(request()->size ?? 10, 1), 100);
+        return Formatter::apiResponse(200, "Borrowing list retrieved",
+            $borrowingsQuery->simplePaginate($size));
     }
 
     /**

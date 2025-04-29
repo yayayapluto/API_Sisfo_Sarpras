@@ -17,30 +17,28 @@ class ReturningController extends Controller
      */
     public function index(Request $request)
     {
-        /**
-         * query params:
-         * - borrowId
-         * - minReturnedQuantity
-         * - maxReturnedQuantity
-         * - handledBy
-         * - sortBy
-         * - sortDir
-         * - size
-         */
-
-        $returningQuery = Returning::query()->with(["borrow.item","handler","returningAttachments"]);
+        $returningQuery = Returning::query()->with(["borrow.item", "handler", "returningAttachments"]);
 
         $user = Auth::guard("sanctum")->user();
-        if ($user->role === "user") {
-            $returningQuery = $returningQuery->join("borrowings", "returnings.borrow_id", "borrow_id")->where("borrowings.user_id", $user->id);
-        }
+        if ($user->role === "user") $returningQuery->join("borrowings", "returnings.borrow_id", "borrowings.id")->where("borrowings.user_id", $user->id);
 
-        $status = $request->query("status");
-        if (!is_null($status)) {
-            $returningQuery = $returningQuery->join("borrowings", "returnings.borrow_id", "borrow_id")->where("borrowings.status", $status);
-        }
+        if ($request->filled("status")) $returningQuery = $returningQuery->join("borrowings", "returnings.borrow_id", "borrow_id")->where("borrowings.status", $request->status);
 
-        $returnings = $returningQuery->simplePaginate(10);
+        if ($request->filled('borrowId')) $returningQuery->where('returnings.borrow_id', $request->borrowId);
+
+        if ($request->filled('minQuantity')) $returningQuery->where('returnings.returned_quantity', '>=', $request->minQuantity);
+
+        if ($request->filled('maxQuantity')) $returningQuery->where('returnings.returned_quantity', '<=', $request->maxQuantity);
+
+        if ($request->filled('handledBy')) $returningQuery->where("returnings.handled_by", $request->handledBy);
+
+        $sortBy = in_array($request->sortBy, ['borrow_id', 'returned_quantity', 'created_at']) ? "returnings." . $request->sortBy : 'returnings.created_at';
+        $sortDir = $request->sortDir === 'asc' ? 'asc' : 'desc';
+        $returningQuery->orderBy($sortBy, $sortDir);
+
+        $size = min(max($request->size ?? 10, 1), 100);
+        $returnings = $returningQuery->simplePaginate($size);
+
         return Formatter::apiResponse(200, "Returning list retrieved", $returnings);
     }
 
