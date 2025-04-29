@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Custom\Formatter;
 use App\Models\Borrowing;
+use App\Models\Item;
 use App\Models\Returning;
 use App\Observers\ReturningObserver;
 use Illuminate\Http\Request;
@@ -20,7 +21,9 @@ class ReturningController extends Controller
         $returningQuery = Returning::query()->with(["borrow.item", "handler", "returningAttachments"]);
 
         $user = Auth::guard("sanctum")->user();
-        if ($user->role === "user") $returningQuery->join("borrowings", "returnings.borrow_id", "borrowings.id")->where("borrowings.user_id", $user->id);
+//        if ($user->role === "user") {
+//            $returningQuery->join("borrowings", "borrowings.id", "returnings.borrow_id")->where("borrowings.user_id", $user->id);
+//        }
 
         if ($request->filled("status")) $returningQuery = $returningQuery->join("borrowings", "returnings.borrow_id", "borrow_id")->where("borrowings.status", $request->status);
 
@@ -37,7 +40,7 @@ class ReturningController extends Controller
         $returningQuery->orderBy($sortBy, $sortDir);
 
         $size = min(max($request->size ?? 10, 1), 100);
-        $returnings = $returningQuery->simplePaginate($size);
+        $returnings = $returningQuery->simplePaginate(10);
 
         return Formatter::apiResponse(200, "Returning list retrieved", $returnings);
     }
@@ -48,7 +51,7 @@ class ReturningController extends Controller
     public function store(Request $request)
     {
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            "borrowId" => "required|string|exists:borrowings,id",
+            "borrowId" => "required|integer|exists:borrowings,id",
             "quantity" => "required|integer|min:1",
         ]);
         if ($validator->fails()) {
@@ -58,7 +61,19 @@ class ReturningController extends Controller
         $validated = $validator->validated();
         $validated["returned_quantity"] = $validated["quantity"];
 
-        Borrowing::query()->where("borrow_id", $validated["borrowId"])->first()->update([
+        $borrowing = Borrowing::query()->find($validated["borrowId"]);
+        if (!$borrowing) {
+            return Formatter::apiResponse(404, "Borrow data not found");
+        }
+
+        $previousReturnRequest = Returning::query()->where("borrow_id", $validated["borrowId"])->join("borrowings", "borrowings.id", "returnings.borrow_id")->where("status", "pending")->first();
+        if ($previousReturnRequest) {
+            return Formatter::apiResponse(400, "Previous return request was still pending, please stay tune", $previousReturnRequest);
+        }
+
+        $validated["borrow_id"] = $validated["borrowId"];
+
+        $borrowing->update([
             "status" => "pending"
         ]);
 
@@ -79,7 +94,7 @@ class ReturningController extends Controller
         }
 
         $returning = $returningQuery->where("returnings.id", $id)->first();
-        dd($returning);
+//        dd($returning);
         if (is_null($returning)) {
             return Formatter::apiResponse(404, "Returning data not found");
         }
@@ -102,11 +117,18 @@ class ReturningController extends Controller
         }
 
         $validated = $validator->validated();
+//        dd($validated);
 
         $borrowStatus = $returning->borrow->status;
         if ($borrowStatus !== "pending") {
             return Formatter::apiResponse(400, "Cannot approve returning request that not have pending status");
         }
+
+        $borrowItemId = $returning->borrow->item_id;
+        $item = Item::query()->find($borrowItemId);
+        $item->update([
+            "stock" => $item->stock + $returning->returned_quantity
+        ]);
 
         $adminName = Auth::guard("sanctum")->user()->username;
 
