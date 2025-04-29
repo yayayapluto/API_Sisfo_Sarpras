@@ -86,16 +86,24 @@ class ItemController extends Controller
                 }
             }
 
-            // need check the rack capacity first
             if ($request->has("racks")) {
                 $rackCodes = explode(",", $request->racks);
-                $rackIds = Rack::query()->whereIn("code", $rackCodes)->pluck("id");
-                foreach ($rackIds as $rackId) {
-                    if (!RackItem::query()->where("item_id", $newItem->id)->where("rack_id", $rackId)->exists()) {
+                $racks = Rack::query()->whereIn("code", $rackCodes)->get();
+
+                foreach ($racks as $rack) {
+                    // Calculate total stock in the rack
+                    $currentStockInRack = $rack->items()->sum('stock');
+
+                    $remainingCapacity = $rack->capacity - $currentStockInRack;
+
+                    if ($validated["stock"] <= $remainingCapacity) {
                         RackItem::query()->create([
                             "item_id" => $newItem->id,
-                            "rack_id" => $rackId
+                            "rack_id" => $rack->id
                         ]);
+                    } else {
+                        DB::rollBack();
+                        return Formatter::apiResponse(400, "Not enough capacity in rack: " . $rack->code);
                     }
                 }
             }
