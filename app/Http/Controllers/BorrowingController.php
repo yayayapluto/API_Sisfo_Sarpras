@@ -65,13 +65,27 @@ class BorrowingController extends Controller
 
         $validated = $validator->validated();
 
-        $itemId = Item::query()->where("sku", $validated["item"])->pluck("id")->first();
-        if (is_null($itemId)) {
+        $item = Item::query()->where("sku", $validated["item"])->select(["id","stock"])->first();
+        if (is_null($item->id)) {
             return Formatter::apiResponse(404, "Item not found");
         }
 
+        $pendingBorrowRequestExists = Borrowing::query()->where("user_id", Auth::guard("sanctum")->user()->id)->join("items", "items.id", "borrowings.item_id")->where("status", "pending")->first();
+        if ($pendingBorrowRequestExists) {
+            return Formatter::apiResponse(400, "You already requested for this item, please wait previous request checked by admin, stay tune", $pendingBorrowRequestExists);
+        }
+
+        $itemStock = $item->stock;
+        $borrowQuantity = $validated["quantity"];
+        if ($itemStock - $borrowQuantity < 0) {
+            return Formatter::apiResponse(400, "Cannot borrow more than item stock", [
+                "remainingItemStock" => $itemStock,
+                "borrowQuantity" => $borrowQuantity
+            ]);
+        }
+
         $validated["user_id"] = Auth::guard("sanctum")->user()->id;
-        $validated["item_id"] = $itemId;
+        $validated["item_id"] = $item->id;
 
         $newBorrowing = Borrowing::query()->create($validated)->load(["item"]);
         return Formatter::apiResponse(200, "Borrow request sent, please wait for the approver", $newBorrowing);
@@ -113,7 +127,12 @@ class BorrowingController extends Controller
             "approved_at" => Carbon::now(),
             "approved_by" => $adminName
         ]);
-        return Formatter::apiResponse(200, "Borrowing approved", Borrowing::query()->find($id));
+
+        $item = Item::query()->find($borrowing->item_id);
+        $item->update([
+            "stock" => $item->stock - $borrowing->quantity
+        ]);
+        return Formatter::apiResponse(200, "Borrowing approved", Borrowing::query()->find($id)->load("item"));
     }
 
     public function reject(Request $request, int $id)
