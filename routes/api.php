@@ -15,6 +15,7 @@ Route::middleware("need-token")->group(function () {
       Route::apiResource("categories", \App\Http\Controllers\CategoryController::class);
       Route::apiResource("racks", \App\Http\Controllers\RackController::class);
       Route::apiResource("items", \App\Http\Controllers\ItemController::class);
+      Route::apiResource("logs", \App\Http\Controllers\LogActivityController::class)->only(["index","show"]);
 
       Route::apiResource("borrowings", \App\Http\Controllers\BorrowingController::class)->except(["store","update","destroy"]);
       Route::patch("borrowings/{id}/approve", [\App\Http\Controllers\BorrowingController::class, "approve"]);

@@ -1635,7 +1635,217 @@
 				},
 				{
 					"name": "LogActivities",
-					"item": []
+					"item": [
+						{
+							"name": "Index",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/admin/logs?performedBy=system&entity=Returning&action=create&sortBy=performed_by&sortDir=asc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"logs"
+									],
+									"query": [
+										{
+											"key": "performedBy",
+											"value": "system"
+										},
+										{
+											"key": "entity",
+											"value": "Returning"
+										},
+										{
+											"key": "action",
+											"value": "create"
+										},
+										{
+											"key": "sortBy",
+											"value": "performed_by",
+											"description": "sortBy: performed_by, entity, action, created_at"
+										},
+										{
+											"key": "sortDir",
+											"value": "asc",
+											"description": "sortDir: asc, desc"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Index no params",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/admin/logs",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"admin",
+												"logs"
+											],
+											"query": [
+												{
+													"key": "performedBy",
+													"value": "system",
+													"disabled": true
+												},
+												{
+													"key": "entity",
+													"value": "Returning",
+													"disabled": true
+												},
+												{
+													"key": "action",
+													"value": "create",
+													"disabled": true
+												},
+												{
+													"key": "sortBy",
+													"value": "performed_by",
+													"description": "sortBy: performed_by, entity, action, created_at",
+													"disabled": true
+												},
+												{
+													"key": "sortDir",
+													"value": "asc",
+													"description": "sortDir: asc, desc",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "localhost:8000"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 30 Apr 2025 14:57:44 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Log activity list retrieved\",\n    \"content\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"id\": 214,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 6,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 6, \\\"note\\\": \\\"Odit tempore corporis eaque dicta nihil quisquam et. Rerum atque dolorem error officiis quos velit quia. Amet voluptates distinctio eligendi doloremque corporis recusandae. Provident asperiores cum est.\\\", \\\"borrow_id\\\": 6, \\\"created_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"returned_quantity\\\": 0}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 284,\n                \"performed_by\": \"system\",\n                \"entity\": \"Attachment\",\n                \"entity_id\": 59,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 59, \\\"file_url\\\": \\\"file url\\\", \\\"file_type\\\": \\\"file type\\\", \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\"}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 283,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 20,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 20, \\\"note\\\": \\\"Et et eaque et aliquid vel earum. Ipsa magni voluptatem id aliquid voluptatum voluptatum labore ut. Quae cupiditate mollitia error tempore qui dicta consectetur.\\\", \\\"borrow_id\\\": 20, \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"returned_quantity\\\": 3}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 282,\n                \"performed_by\": \"system\",\n                \"entity\": \"Borrowing\",\n                \"entity_id\": 20,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 20, \\\"due\\\": {\\\"date\\\": \\\"2025-05-01 13:53:29.000000\\\", \\\"timezone\\\": \\\"UTC\\\", \\\"timezone_type\\\": 3}, \\\"status\\\": \\\"rejected\\\", \\\"item_id\\\": 18, \\\"user_id\\\": 3, \\\"quantity\\\": 8, \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"approved_at\\\": null, \\\"approved_by\\\": null}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 281,\n                \"performed_by\": \"system\",\n                \"entity\": \"Attachment\",\n                \"entity_id\": 58,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 58, \\\"file_url\\\": \\\"file url\\\", \\\"file_type\\\": \\\"file type\\\", \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\"}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 280,\n                \"performed_by\": \"system\",\n                \"entity\": \"Attachment\",\n                \"entity_id\": 57,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 57, \\\"file_url\\\": \\\"file url\\\", \\\"file_type\\\": \\\"file type\\\", \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\"}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 279,\n                \"performed_by\": \"system\",\n                \"entity\": \"Attachment\",\n                \"entity_id\": 56,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 56, \\\"file_url\\\": \\\"file url\\\", \\\"file_type\\\": \\\"file type\\\", \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\"}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 278,\n                \"performed_by\": \"system\",\n                \"entity\": \"Attachment\",\n                \"entity_id\": 55,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 55, \\\"file_url\\\": \\\"file url\\\", \\\"file_type\\\": \\\"file type\\\", \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\"}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 277,\n                \"performed_by\": \"system\",\n                \"entity\": \"Attachment\",\n                \"entity_id\": 54,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 54, \\\"file_url\\\": \\\"file url\\\", \\\"file_type\\\": \\\"file type\\\", \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\"}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 276,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 19,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 19, \\\"note\\\": \\\"Dolores id non et voluptatibus. Esse at iusto non eos. Delectus adipisci nam ut sunt magni. Non dolorem aspernatur non saepe.\\\", \\\"borrow_id\\\": 19, \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"returned_quantity\\\": 5}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            }\n        ],\n        \"first_page_url\": \"http://localhost:8000/api/admin/logs?page=1\",\n        \"from\": 1,\n        \"next_page_url\": \"http://localhost:8000/api/admin/logs?page=2\",\n        \"path\": \"http://localhost:8000/api/admin/logs\",\n        \"per_page\": 10,\n        \"prev_page_url\": null,\n        \"to\": 10\n    },\n    \"error\": null\n}"
+								},
+								{
+									"name": "Index all params",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/admin/logs?performedBy=system&entity=Returning&action=create&sortBy=performed_by&sortDir=asc",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"admin",
+												"logs"
+											],
+											"query": [
+												{
+													"key": "performedBy",
+													"value": "system"
+												},
+												{
+													"key": "entity",
+													"value": "Returning"
+												},
+												{
+													"key": "action",
+													"value": "create"
+												},
+												{
+													"key": "sortBy",
+													"value": "performed_by",
+													"description": "sortBy: performed_by, entity, action, created_at"
+												},
+												{
+													"key": "sortDir",
+													"value": "asc",
+													"description": "sortDir: asc, desc"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Host",
+											"value": "localhost:8000"
+										},
+										{
+											"key": "Connection",
+											"value": "close"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.3.4"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 30 Apr 2025 14:58:00 GMT"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Log activity list retrieved\",\n    \"content\": {\n        \"current_page\": 1,\n        \"data\": [\n            {\n                \"id\": 187,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 1,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 1, \\\"note\\\": \\\"Aspernatur et ipsa sint. Aut doloribus nemo voluptatem ut. Saepe dolores alias rerum illum aliquam et.\\\", \\\"borrow_id\\\": 1, \\\"created_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"returned_quantity\\\": 4}\",\n                \"created_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 193,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 2,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 2, \\\"note\\\": \\\"Perspiciatis quis et omnis quibusdam aut minima. Est dolorem consequatur qui assumenda ab dolore. Officiis sit repellendus quis sed ducimus ut et. Explicabo pariatur et totam praesentium sint aspernatur laboriosam.\\\", \\\"borrow_id\\\": 2, \\\"created_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"returned_quantity\\\": 0}\",\n                \"created_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 200,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 3,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 3, \\\"note\\\": \\\"Esse praesentium et ea eos repellendus id. Temporibus ad qui distinctio sit ratione. Aut consequatur necessitatibus molestiae nihil nemo ducimus.\\\", \\\"borrow_id\\\": 3, \\\"created_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"returned_quantity\\\": 2}\",\n                \"created_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 203,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 4,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 4, \\\"note\\\": \\\"Nihil accusamus magni id tempora. Pariatur autem rerum incidunt similique. Doloremque ipsum mollitia ea esse. Dignissimos dignissimos officia ea ullam.\\\", \\\"borrow_id\\\": 4, \\\"created_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"returned_quantity\\\": 2}\",\n                \"created_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 209,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 5,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 5, \\\"note\\\": \\\"Modi error laboriosam delectus. Voluptatem est quisquam ipsa repellendus velit veritatis doloribus. Sed sequi dicta sit sit officiis odio aut. Maiores necessitatibus delectus quos ut ad aut.\\\", \\\"borrow_id\\\": 5, \\\"created_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"returned_quantity\\\": 0}\",\n                \"created_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:12.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 214,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 6,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 6, \\\"note\\\": \\\"Odit tempore corporis eaque dicta nihil quisquam et. Rerum atque dolorem error officiis quos velit quia. Amet voluptates distinctio eligendi doloremque corporis recusandae. Provident asperiores cum est.\\\", \\\"borrow_id\\\": 6, \\\"created_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:12.000000Z\\\", \\\"returned_quantity\\\": 0}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 218,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 7,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 7, \\\"note\\\": \\\"Aut praesentium quia in consequuntur et. Porro sunt libero sed praesentium. Nam perferendis deleniti tenetur rem cupiditate cum tempore ullam. Sunt vel sequi ea commodi aut amet.\\\", \\\"borrow_id\\\": 7, \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"returned_quantity\\\": 3}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 222,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 8,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 8, \\\"note\\\": \\\"Odit mollitia perferendis laborum voluptatem eaque ad. Qui provident ut et autem similique culpa neque. Hic blanditiis non nihil commodi ut qui.\\\", \\\"borrow_id\\\": 8, \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"returned_quantity\\\": 7}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 226,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 9,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 9, \\\"note\\\": \\\"Et beatae architecto consequatur neque iste veritatis. Tempora impedit optio occaecati excepturi blanditiis voluptatum aut. Veniam doloremque autem accusamus sed. Accusamus doloremque et impedit quibusdam ab eius. Aliquid nam voluptatem aut et.\\\", \\\"borrow_id\\\": 9, \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"returned_quantity\\\": 4}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            },\n            {\n                \"id\": 232,\n                \"performed_by\": \"system\",\n                \"entity\": \"Returning\",\n                \"entity_id\": 10,\n                \"action\": \"create\",\n                \"old_value\": null,\n                \"new_value\": \"{\\\"id\\\": 10, \\\"note\\\": \\\"Officiis ut repudiandae qui qui reiciendis illum. Ea quod quis alias rerum aut animi quia aperiam. Optio quas recusandae illo est.\\\", \\\"borrow_id\\\": 10, \\\"created_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"handled_by\\\": \\\"admin\\\", \\\"updated_at\\\": \\\"2025-04-30T14:21:13.000000Z\\\", \\\"returned_quantity\\\": 1}\",\n                \"created_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"updated_at\": \"2025-04-30T14:21:13.000000Z\",\n                \"performer\": null\n            }\n        ],\n        \"first_page_url\": \"http://localhost:8000/api/admin/logs?page=1\",\n        \"from\": 1,\n        \"next_page_url\": \"http://localhost:8000/api/admin/logs?page=2\",\n        \"path\": \"http://localhost:8000/api/admin/logs\",\n        \"per_page\": 10,\n        \"prev_page_url\": null,\n        \"to\": 10\n    },\n    \"error\": null\n}"
+								}
+							]
+						}
+					]
 				}
 			],
 			"auth": {
