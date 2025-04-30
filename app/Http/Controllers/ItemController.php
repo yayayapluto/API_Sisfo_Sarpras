@@ -87,7 +87,7 @@ class ItemController extends Controller
             }
 
             if ($request->has("racks")) {
-                $rackCodes = explode(",", $request->racks);
+                $rackCodes = explode(",", $request->racks); // "rack1,rack1" => ["rack1","rack2"]
                 $racks = Rack::query()->whereIn("code", $rackCodes)->get();
 
                 foreach ($racks as $rack) {
