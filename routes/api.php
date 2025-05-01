@@ -12,6 +12,17 @@ Route::prefix("auth")->group(function () {
 Route::middleware("need-token")->group(function () {
 
    Route::prefix("admin")->middleware("role:admin")->group(function () {
+       Route::prefix("dashboard")->group(function () {
+           Route::get("general", [\App\Http\Controllers\DashboardController::class, "general"]);
+           Route::get("user", [\App\Http\Controllers\DashboardController::class, "user"]);
+           Route::get("rack", [\App\Http\Controllers\DashboardController::class, "rack"]);
+           Route::get("category", [\App\Http\Controllers\DashboardController::class, "category"]);
+           Route::get("item", [\App\Http\Controllers\DashboardController::class, "item"]);
+           Route::get("borrowing", [\App\Http\Controllers\DashboardController::class, "borrowing"]);
+           Route::get("returning", [\App\Http\Controllers\DashboardController::class, "returning"]);
+       });
+
+       Route::apiResource("users", \App\Http\Controllers\UserController::class);
       Route::apiResource("categories", \App\Http\Controllers\CategoryController::class);
       Route::apiResource("racks", \App\Http\Controllers\RackController::class);
       Route::apiResource("items", \App\Http\Controllers\ItemController::class);

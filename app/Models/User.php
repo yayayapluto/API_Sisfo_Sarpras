@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(Borrowing::class, "approved_by", "username");
     }
 
+    public function handler()
+    {
+        return $this->hasMany(Returning::class, "handled_by", "username");
+    }
+
     public function performer()
     {
         return $this->hasMany(LogActivity::class, "performed_by", "username");

@@ -1631,7 +1631,71 @@
 				},
 				{
 					"name": "Dashboard",
-					"item": []
+					"item": [
+						{
+							"name": "General",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/dashboard/general"
+							},
+							"response": []
+						},
+						{
+							"name": "User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/dashboard/user"
+							},
+							"response": []
+						},
+						{
+							"name": "Rack",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/dashboard/rack"
+							},
+							"response": []
+						},
+						{
+							"name": "Category",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/dashboard/category"
+							},
+							"response": []
+						},
+						{
+							"name": "Item",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/dashboard/item"
+							},
+							"response": []
+						},
+						{
+							"name": "Borrowing",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/dashboard/borrowing"
+							},
+							"response": []
+						},
+						{
+							"name": "Returning",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/dashboard/returning"
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "LogActivities",
@@ -1846,12 +1910,101 @@
 							]
 						}
 					]
+				},
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Index",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:8000/api/admin/users"
+							},
+							"response": []
+						},
+						{
+							"name": "Store",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"farras\",\r\n    \"password\": \"farras123\",\r\n    \"role\": \"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/users"
+							},
+							"response": []
+						},
+						{
+							"name": "Show",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"farras\",\r\n    \"password\": \"farras123\",\r\n    \"role\": \"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/users/4"
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"farras gokil\",\r\n    \"password\": \"farras123\",\r\n    \"role\": \"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/users/4"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"farras gokil\",\r\n    \"password\": \"farras123\",\r\n    \"role\": \"user\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:8000/api/admin/users/4"
+							},
+							"response": []
+						}
+					]
 				}
 			],
 			"auth": {
 				"type": "bearer",
 				"bearer": {
-					"token": "1|rLLJmE95wkWNzU2urfDNYQsohy6vGbz20DCvUWIfc79cecbe"
+					"token": "2|jQ2iljqb5apUOTlzdMY1wZUw5esZuAWtpHIwCXIo9833d192"
 				}
 			},
 			"event": [
