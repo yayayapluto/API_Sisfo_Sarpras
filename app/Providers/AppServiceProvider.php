@@ -11,6 +11,7 @@ use App\Models\ItemCategory;
 use App\Models\Rack;
 use App\Models\RackItem;
 use App\Models\Returning;
+use App\Models\User;
 use App\Observers\AttachmentObserver;
 use App\Observers\BorrowingObserver;
 use App\Observers\CategoryObserver;
@@ -20,6 +21,7 @@ use App\Observers\ItemObserver;
 use App\Observers\RackItemObserver;
 use App\Observers\RackObserver;
 use App\Observers\ReturningObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        User::observe(UserObserver::class);
         Category::observe(CategoryObserver::class);
         Rack::observe(RackObserver::class);
         Item::observe(ItemObserver::class);
