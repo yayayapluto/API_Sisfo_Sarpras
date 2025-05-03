@@ -64,7 +64,7 @@ class UserController extends Controller
         }
 
         $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
-            'username' => "sometimes|string|unique:users,username",
+            'username' => "sometimes|string|unique:users,username," . $id,
             'password' => "sometimes|string|min:6",
             "role" => "sometimes|string|in:admin,user"
         ]);
@@ -74,7 +74,9 @@ class UserController extends Controller
         }
 
         $validated = $validator->validate();
-        $validated["password"] = Hash::make($validated["password"]);
+        if (isset($validated["password"])) {
+            $validated["password"] = Hash::make($validated["password"]);
+        }
 
         $user->update($validated);
         return Formatter::apiResponse(200, "User updated", User::query()->find($id));
